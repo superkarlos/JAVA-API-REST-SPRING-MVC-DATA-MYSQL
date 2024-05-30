@@ -11,13 +11,18 @@ import org.springframework.stereotype.Service;
 
 import br.com.sistema_cadastros.inicio.dto.ProfessorDTO;
 import br.com.sistema_cadastros.inicio.model.ProfessorEntity;
+import br.com.sistema_cadastros.inicio.model.TurmaEntity;
 import br.com.sistema_cadastros.inicio.repostory.RepositorioProfessor;
+import br.com.sistema_cadastros.inicio.repostory.RepositoryTurma;
 
 @Service
 public class ProfessorService {
 
     @Autowired
     private RepositorioProfessor repository;
+      
+    @Autowired
+    private RepositoryTurma repositoryTurma;
     
     public ProfessorEntity mescar(ProfessorEntity professorEntity,ProfessorDTO professordto){
         if( professordto.nome() != null && (professorEntity.getNome() != professordto.nome())){
@@ -87,13 +92,22 @@ public class ProfessorService {
     public String deletar(Long id){
         Optional<ProfessorEntity> 
         Optional= this.repository.findById(id);
+       // Optional.get().setTurmas(null);
 
         if(Optional.isPresent()){
-            repository.delete(Optional.get());
-        return "Professor deletado com sucesso!";
-        }else{
-            return "Não localizado";
-        }
+             // Remover a associação de todas as turmas
+             ProfessorEntity professor = Optional.get();
+             List<TurmaEntity> turmas = professor.getTurmas();
+          for (TurmaEntity turma : turmas) {
+            turma.setProfessorDisciplina(null);
+            repositoryTurma.save(turma);
+            }
+            // Agora pode deletar o professor
+            repository.delete( Optional.get());
+            return "Deletado"  ;
+        }  
+    else{
+         return "Não localizado";}
     }
 
     public ResponseEntity desativar(Long id){
@@ -111,5 +125,18 @@ public class ProfessorService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não deletado logicamente");
         }
        
+    }
+
+
+    public String entrar(Long id){
+      
+    Optional<TurmaEntity> turmaOptional = this.repositoryTurma.findById(id);
+
+    if (turmaOptional.isEmpty()){
+            return ("Turma não encontrada");
+       }else{
+        return "id";
+       }
+
     }
 }

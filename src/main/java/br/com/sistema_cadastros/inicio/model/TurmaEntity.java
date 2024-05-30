@@ -1,7 +1,9 @@
 package br.com.sistema_cadastros.inicio.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,24 +27,14 @@ public class TurmaEntity {
     private String nome;
     private String codigo;
 
+
+
     @ManyToOne
     @JoinColumn(name = "professor_id",nullable = true)
     @JsonBackReference
+   // @JsonIgnore
+   
     private ProfessorEntity professorDisciplina;
    
-
-    public TurmaEntity(String nome,String codigo, ProfessorEntity professorDisciplina){
-        this.codigo= codigo;
-        this.nome =nome;
-        this.professorDisciplina = professorDisciplina;
-    }
-
-    public ProfessorEntity getProfessorDisciplina() {
-        return professorDisciplina;
-    }
-
-    public void setProfessorDisciplina(ProfessorEntity professorDisciplina) {
-        this.professorDisciplina = professorDisciplina;
-    }
 
 }

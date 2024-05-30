@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import br.com.sistema_cadastros.inicio.Enum.Genero;
@@ -67,8 +68,10 @@ public class ProfessorEntity {
  
    private Boolean ativo = true;
   
-   @OneToMany(mappedBy = "professorDisciplina",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+   @OneToMany(mappedBy = "professorDisciplina",fetch = FetchType.EAGER)
    @JsonManagedReference
    private List<TurmaEntity> turmas;
+
+
 
 }

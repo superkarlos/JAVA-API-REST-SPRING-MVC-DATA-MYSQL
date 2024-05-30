@@ -68,7 +68,7 @@ public class ProfessorController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(service.atualizar(id, professordto));
     }
 
-
+   // @GetMapping("deletar/{id}")
     @DeleteMapping("deletar/{id}")
     public ResponseEntity<Object> delepeOne(@PathVariable(value = "id") Long id){
      return ResponseEntity.status(HttpStatus.OK).body(service.deletar(id) );    
@@ -79,4 +79,12 @@ public class ProfessorController {
         return service.desativar(id);
     }
     
+
+    @GetMapping("Turma/entrar/{id}")
+    public  ResponseEntity <String> entraEntity(@PathVariable (value = "id") Long id){
+      
+     return ResponseEntity.status(HttpStatus.OK).body(service.entrar(id));
+     
+    }
+
 }
