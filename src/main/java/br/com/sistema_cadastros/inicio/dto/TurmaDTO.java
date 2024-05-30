@@ -4,6 +4,7 @@ import br.com.sistema_cadastros.inicio.model.AlunoEntity;
 import br.com.sistema_cadastros.inicio.model.ProfessorEntity;
 
 public record TurmaDTO(
+    Long id,
     String nome,
     String codigo,
     ProfessorEntity professorDisciplina

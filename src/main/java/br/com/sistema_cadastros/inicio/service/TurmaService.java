@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.sistema_cadastros.inicio.dto.TurmaDTO;
+import br.com.sistema_cadastros.inicio.model.AlunoEntity;
 import br.com.sistema_cadastros.inicio.model.ProfessorEntity;
 import br.com.sistema_cadastros.inicio.model.TurmaEntity;
 import br.com.sistema_cadastros.inicio.repostory.RepositorioProfessor;
@@ -32,6 +33,15 @@ public class TurmaService {
  
     public List<TurmaEntity> Lista_tumas(){
         return this.repositoryTurma.findAll();
+    }
+    public Object Lista_tumas_id(Long id){
+        Optional <TurmaEntity> optional = this.repositoryTurma.findById(id);
+        if(optional.isPresent()){
+            return optional.get();
+        }else{
+            return "Turma Não encontrada";
+        }
+        
     }
     public String assosiarprofessor(Long idprofessor,Long idTurma)throws Exception{
         Optional<ProfessorEntity> profOptional = this.repositorioProfessor.findById(idprofessor);
@@ -63,18 +73,21 @@ public class TurmaService {
 
     public Object  editar(Long id,TurmaDTO turmaDTO){
         Optional <TurmaEntity> turma = this.repositoryTurma.findById(id);
+        
         if(turma.isPresent()){
-           TurmaEntity turmaEntity = new TurmaEntity();
-           BeanUtils.copyProperties(turma, turmaEntity);
-           if(turmaDTO.nome()== null){
-            turmaEntity.setNome(turma.get().getNome());
-           }
-           if(turmaDTO.codigo()== null){
-            turmaEntity.setNome(turma.get().getCodigo());
-           }
-           if(turmaDTO.professorDisciplina()== null){
-            turmaEntity.setProfessorDisciplina(turma.get().getProfessorDisciplina());
-           }
+
+           TurmaEntity turmaEntity = turma.get();
+         
+          if((turmaDTO.nome() != turmaEntity.getNome()) &&  (turmaDTO.nome() != null) ){
+            turmaEntity.setNome(turmaDTO.nome());
+          }
+          if((turmaDTO.codigo() != turmaEntity.getCodigo()) &&  (turmaDTO.codigo() != null) ){
+            turmaEntity.setCodigo(turmaDTO.codigo()) ;
+          }
+          if((turmaDTO.professorDisciplina() != turmaEntity.getProfessorDisciplina()) ){
+            turmaEntity.setProfessorDisciplina(turmaDTO.professorDisciplina());
+          }
+           this.repositoryTurma.save(turmaEntity);
           return turmaEntity;
 
         }else{
@@ -82,6 +95,24 @@ public class TurmaService {
         }
         
     }
+
+
+    public Object exluirLogico(Long id){
+        Optional<TurmaEntity> Optional = this.repositoryTurma.findById(id);
+
+       if(Optional.isPresent()){
+          TurmaEntity Entity = Optional.get();
+          Entity.setAtivo(false);
+          return this.repositoryTurma.save(Entity);
+       }
+       else{
+           return "Não deletado logicamente";
+       }
+    }
+
+    public List<TurmaEntity> lista_logica(){
+        return this.repositoryTurma.findByAtivoTrue();
+
 }
 
-
+}

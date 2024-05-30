@@ -26,6 +26,8 @@ public class TurmaEntity {
     private Long id;
     private String nome;
     private String codigo;
+    private Boolean ativo = true;
+    
 
 
 
