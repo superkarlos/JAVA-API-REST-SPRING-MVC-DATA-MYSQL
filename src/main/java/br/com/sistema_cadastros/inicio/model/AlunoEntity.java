@@ -83,7 +83,7 @@ public class AlunoEntity {
     @ManyToMany(mappedBy = "lista_alunos",fetch = FetchType.LAZY)
     // @JsonManagedReference
   //  @JsonBackReference
-    @JsonIgnore
+   @JsonIgnore
  //  private Set<TurmaEntity> turmas = new HashSet<>();
      private List <TurmaEntity> turmas ;
     // @JsonIgnore

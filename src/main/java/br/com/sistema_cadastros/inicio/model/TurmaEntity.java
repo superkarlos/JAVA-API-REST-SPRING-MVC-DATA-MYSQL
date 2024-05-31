@@ -35,7 +35,10 @@ public class TurmaEntity {
     private String nome;
     private String codigo;
     private Boolean ativo = true;
-    
+    public void removeAluno(AlunoEntity aluno) {
+      this.lista_alunos.remove(aluno);
+      aluno.getTurmas().remove(this); // Também remover a turma da lista de turmas do aluno
+  }
 
 
 
@@ -52,7 +55,7 @@ public class TurmaEntity {
     inverseJoinColumns = @JoinColumn(name= "Aluno_fk"))
   //  @JsonManagedReference
     //  @JsonBackReference
-   //  @JsonIgnore
+   // @JsonIgnore
   //  private Set<AlunoEntity> lista_alunos = new HashSet<>();
     private List<AlunoEntity> lista_alunos ;
    

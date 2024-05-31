@@ -79,26 +79,18 @@ public class TurmaController {
    @PreUpdate
    @Transactional
    @GetMapping("/{id}/matricularAluno/{idaluno}")
-public ResponseEntity<?> matricularAluno(@PathVariable Long id, @PathVariable Long idaluno) {
-    Optional<TurmaEntity> optionalTurma = this.repositoryTurma.findById(id);
-    Optional<AlunoEntity> optionaAluno = this.repositorioAluno.findById(idaluno);
+   public ResponseEntity<?> matricularAluno(@PathVariable Long id, @PathVariable Long idaluno) {
+      return service.matricularAluno(id, idaluno);
+  }
 
-    if (optionalTurma.isPresent() && optionaAluno.isPresent()) {
-        TurmaEntity turmaEntity = optionalTurma.get();
-        AlunoEntity alunoEntity = optionaAluno.get();
-        
-        // Imprimindo apenas os IDs para evitar recursão
-        System.out.println("Turma ID: " + turmaEntity.getId());
-        System.out.println("Aluno ID: " + alunoEntity.getId());
 
-        turmaEntity.getLista_alunos().add(alunoEntity);
-        alunoEntity.getTurmas().add(turmaEntity);
-        repositoryTurma.save(turmaEntity);
-        repositorioAluno.save(alunoEntity);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Aluno matriculado com sucesso");
-    } else {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Turma ou Aluno não encontrado");
-    }
+@GetMapping("/{turmaId}/removerAluno/{alunoId}")
+public ResponseEntity<?> removerAlunoDaTurma(@PathVariable Long turmaId, @PathVariable Long alunoId) { 
+    return service.removerAluno(turmaId, alunoId);
 }
 
+  
+
+   
 }
+

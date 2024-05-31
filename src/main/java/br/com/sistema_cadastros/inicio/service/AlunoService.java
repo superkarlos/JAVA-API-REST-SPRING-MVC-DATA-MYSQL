@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import br.com.sistema_cadastros.inicio.dto.AlunoDTO;
 import br.com.sistema_cadastros.inicio.model.AlunoEntity;
+import br.com.sistema_cadastros.inicio.model.TurmaEntity;
 import br.com.sistema_cadastros.inicio.repostory.RepositorioAluno;
+import br.com.sistema_cadastros.inicio.repostory.RepositoryTurma;
 
 
 @Service
@@ -17,6 +19,9 @@ public class AlunoService {
    
     @Autowired
     private RepositorioAluno repository;
+
+    @Autowired
+    private RepositoryTurma   repositoryTurma;
 
     private AlunoEntity mescar(AlunoEntity alunoEntity,AlunoDTO alunodto){
         
@@ -84,16 +89,28 @@ public class AlunoService {
         }
       }
 
-    public String excluir(Long id){
-        Optional<AlunoEntity> aluno_Optional = this.repository.findById(id);
-
-        if(aluno_Optional.isPresent()){
-            repository.delete(aluno_Optional.get());
-        return "Cliente deletado com sucesso!";
-        }else{
-         return "Não localizado";
+      public String excluir(Long id) {
+        Optional<AlunoEntity> alunoOptional = this.repository.findById(id);
+        
+        if (alunoOptional.isPresent()) {
+            AlunoEntity aluno = alunoOptional.get();
+            List<TurmaEntity> turmas = aluno.getTurmas();
+            
+            // Remover o aluno de todas as turmas
+            for (TurmaEntity turma : turmas) {
+                turma.getLista_alunos().remove(aluno); // Assumindo que TurmaEntity tem um método getAlunos()
+                repositoryTurma.save(turma); // Atualizar a turma no repositório
+            }
+            
+            // Agora que o aluno não está mais em nenhuma turma, podemos deletá-lo
+            repository.delete(aluno);
+    
+            return "Aluno deletado com sucesso!";
+        } else {
+            return "Aluno não localizado";
         }
     }
+    
 
     public Object exluirLogico(Long id){
         Optional<AlunoEntity> aluno_Optional = this.repository.findById(id);
