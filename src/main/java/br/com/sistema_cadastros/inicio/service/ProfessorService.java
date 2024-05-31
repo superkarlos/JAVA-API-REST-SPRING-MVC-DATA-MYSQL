@@ -89,26 +89,27 @@ public class ProfessorService {
 
     }
 
-    public String deletar(Long id){
-        Optional<ProfessorEntity> 
-        Optional= this.repository.findById(id);
-       // Optional.get().setTurmas(null);
-
-        if(Optional.isPresent()){
-             // Remover a associação de todas as turmas
-             ProfessorEntity professor = Optional.get();
-             List<TurmaEntity> turmas = professor.getTurmas();
-          for (TurmaEntity turma : turmas) {
-            turma.setProfessorDisciplina(null);
-            repositoryTurma.save(turma);
+    public String deletar(Long id) {
+        Optional<ProfessorEntity> optional = this.repository.findById(id);
+    
+        if (optional.isPresent()) {
+            // Remover a associação de todas as turmas
+            ProfessorEntity professor = optional.get();
+            List<TurmaEntity> turmas = professor.getTurmas();
+            
+            for (TurmaEntity turma : turmas) {
+                turma.setProfessorDisciplina(null);
+                repositoryTurma.save(turma);
             }
+            
             // Agora pode deletar o professor
-            repository.delete( Optional.get());
-            return "Deletado"  ;
-        }  
-    else{
-         return "Não localizado";}
+            repository.delete(professor);
+            return "Deletado";
+        } else {
+            return "Não localizado";
+        }
     }
+    
 
     public ResponseEntity desativar(Long id){
         Optional<ProfessorEntity>   Optional= this.repository.findById(id);

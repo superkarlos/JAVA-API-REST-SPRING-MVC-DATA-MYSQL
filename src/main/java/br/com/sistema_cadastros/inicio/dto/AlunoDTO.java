@@ -12,7 +12,7 @@ import jakarta.persistence.Enumerated;
 
 
 public record AlunoDTO(
-    
+
     String nome,
    //@CPF
     String cpf,

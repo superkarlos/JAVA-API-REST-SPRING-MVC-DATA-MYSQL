@@ -9,10 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import br.com.sistema_cadastros.inicio.dto.AlunoDTO;
 import br.com.sistema_cadastros.inicio.dto.TurmaDTO;
 import br.com.sistema_cadastros.inicio.model.AlunoEntity;
 import br.com.sistema_cadastros.inicio.model.ProfessorEntity;
 import br.com.sistema_cadastros.inicio.model.TurmaEntity;
+import br.com.sistema_cadastros.inicio.repostory.RepositorioAluno;
 import br.com.sistema_cadastros.inicio.repostory.RepositorioProfessor;
 import br.com.sistema_cadastros.inicio.repostory.RepositoryTurma;
 import jakarta.transaction.Transactional;
@@ -23,6 +25,9 @@ public class TurmaService {
     private RepositoryTurma repositoryTurma;
     @Autowired
     private RepositorioProfessor repositorioProfessor;
+
+    @Autowired
+    private RepositorioAluno repositorioAluno;
 
 
     public TurmaEntity cadastrar(TurmaDTO turma){
@@ -88,7 +93,9 @@ public class TurmaService {
             turmaEntity.setProfessorDisciplina(turmaDTO.professorDisciplina());
           }
            this.repositoryTurma.save(turmaEntity);
-          return turmaEntity;
+         // return turmaEntity;
+         String aux = turmaEntity.getProfessorDisciplina().getNome();
+         return "Do professor " + aux + " Atualizada";
 
         }else{
             return "turma não encontrada";
@@ -113,6 +120,32 @@ public class TurmaService {
     public List<TurmaEntity> lista_logica(){
         return this.repositoryTurma.findByAtivoTrue();
 
-}
+   }
+
+ //  public void removerAluno(Long id, AlunoDTO alunoDTO_) {
+     //   Optional<TurmaEntity>  turma = repositoryTurma.findById(id);
+      
+     //   AlunoEntity aluno ;
+      //  BeanUtils.copyProperties(alunoDTO_, aluno);
+       // turma.getAlunos().remove(aluno);
+       // turma.get().getLista_alunos().remove(aluno);
+    //    repositoryTurma.save(turma.get());
+ //   }
+    public Object matricularAluno(Long id, AlunoDTO alunoDTO) {
+    Optional< TurmaEntity> turma = repositoryTurma.findById(id);
+    AlunoEntity aluno = new AlunoEntity(alunoDTO);
+    turma.get().getLista_alunos().add(aluno);
+    repositoryTurma.save(turma);
+     return turma;
+    }
+
+    public void removerAluno_(Long id, AlunoDTO alunoDTO) {
+        TurmaEntity turma = repositoryTurma.findById(id).orElseThrow();
+        AlunoEntity aluno = new AlunoEntity(alunoDTO);
+        turma.getLista_alunos().remove(aluno);
+        repositoryTurma.save(turma);
+    }
+    
+
 
 }

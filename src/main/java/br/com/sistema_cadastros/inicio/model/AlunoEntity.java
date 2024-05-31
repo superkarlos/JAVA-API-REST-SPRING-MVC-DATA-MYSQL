@@ -2,13 +2,19 @@ package br.com.sistema_cadastros.inicio.model;
 
 
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 //import org.springframework.cglib.reflect.MethodDelegate.Generator;
 
 import br.com.sistema_cadastros.inicio.Enum.Genero;
+import br.com.sistema_cadastros.inicio.dto.AlunoDTO;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
@@ -34,7 +40,12 @@ import jakarta.persistence.ManyToMany;
 
 public class AlunoEntity {
     
-   @Id
+   public AlunoEntity(AlunoDTO alunoDTO) {
+        //TODO Auto-generated constructor stub
+    }
+
+
+@Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private long id;
  // @NotNull
@@ -67,5 +78,14 @@ public class AlunoEntity {
    
    
     private Boolean ativo = true;
+    
 
+    @ManyToMany(mappedBy = "lista_alunos",fetch = FetchType.LAZY)
+    // @JsonManagedReference
+  //  @JsonBackReference
+    @JsonIgnore
+ //  private Set<TurmaEntity> turmas = new HashSet<>();
+     private List <TurmaEntity> turmas ;
+    // @JsonIgnore
+  
 }

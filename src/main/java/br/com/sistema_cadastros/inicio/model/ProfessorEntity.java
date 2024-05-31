@@ -69,7 +69,7 @@ public class ProfessorEntity {
    private Boolean ativo = true;
   
    @OneToMany(mappedBy = "professorDisciplina",fetch = FetchType.EAGER)
-   @JsonManagedReference
+   //@JsonManagedReference
    private List<TurmaEntity> turmas;
 
 
