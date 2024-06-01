@@ -1,4 +1,5 @@
 package br.com.sistema_cadastros.inicio.controller;
+
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -24,6 +25,7 @@ import br.com.sistema_cadastros.inicio.repostory.RepositorioProfessor;
 import br.com.sistema_cadastros.inicio.repostory.RepositoryTurma;
 import br.com.sistema_cadastros.inicio.service.TurmaService;
 import jakarta.persistence.PreUpdate;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/Turma")
@@ -40,60 +42,64 @@ public class TurmaController {
     private TurmaService service;
 
     @GetMapping("/listar")
-    public ResponseEntity<?> getAll(){
+    public ResponseEntity<?> getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(service.Lista_tumas());
     }
+
     @GetMapping("/listar_logica")
-    public ResponseEntity<?> getAllLogic(){
+    public ResponseEntity<?> getAllLogic() {
         return ResponseEntity.status(HttpStatus.OK).body(service.lista_logica());
     }
+
     @GetMapping("/listar/{id}")
-    public ResponseEntity<?> getById(@PathVariable (value = "id") Long id){
+    public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.Lista_tumas_id(id));
     }
-   
+
     @PostMapping("/post")
-    public ResponseEntity<?>postTurma(@RequestBody TurmaDTO turmaDTO){
+    public ResponseEntity<?> postTurma(@Valid @RequestBody TurmaDTO turmaDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(service.cadastrar(turmaDTO));
     }
+
     @PutMapping("/post/{id}")
-    public ResponseEntity<?>putTurma(@PathVariable (value = "id") Long id,@RequestBody TurmaDTO turmaDTO){
-        return ResponseEntity.status(HttpStatus.OK).body(service.editar(id,turmaDTO));
+    public ResponseEntity<?> putTurma(@PathVariable(value = "id") Long id, @RequestBody TurmaDTO turmaDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.editar(id, turmaDTO));
     }
+
     @GetMapping("/{idturma}/AssociarProfessor/{idprofessor}")
-    public ResponseEntity associar(@PathVariable (value = "idturma") Long idT,@PathVariable (value = "idprofessor") Long idP)throws Exception{   
+    public ResponseEntity associar(@PathVariable(value = "idturma") Long idT,
+            @PathVariable(value = "idprofessor") Long idP) throws Exception {
         return ResponseEntity.status(HttpStatus.OK).body(service.assosiarprofessor(idP, idT));
     }
-    @GetMapping("/{idturma}/removerProfessor/{idprofessor}")
-    public ResponseEntity deletarProfessor(@PathVariable (value = "idturma") Long idT,@PathVariable (value = "idprofessor") Long idP)throws Exception{   
-        return ResponseEntity.status(HttpStatus.OK).body(service.remover_professor(idT,idP));
-    }
+
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<?> dell(@PathVariable (value = "id") Long id){
+    public ResponseEntity<?> dell(@PathVariable(value = "id") Long id) {
         return ResponseEntity.ok(service.deletar(id));
     }
+
     @DeleteMapping("/desativer/{id}")
-    public ResponseEntity<?> getByIdLogic(@PathVariable (value = "id") Long id){
+    public ResponseEntity<?> getByIdLogic(@PathVariable(value = "id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.exluirLogico(id));
     }
-   
-   // @Transactional
 
-   @PreUpdate
-   @Transactional
-   @GetMapping("/{id}/matricularAluno/{idaluno}")
-   public ResponseEntity<?> matricularAluno(@PathVariable Long id, @PathVariable Long idaluno) {
-      return service.matricularAluno(id, idaluno);
-  }
+    @DeleteMapping("/{idturma}/removerProfessor/{idprofessor}")
+    public ResponseEntity deletarProfessor(@PathVariable(value = "idturma") Long idT,
+            @PathVariable(value = "idprofessor") Long idP) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(service.remover_professor(idT, idP));
+    }
 
+    @DeleteMapping("/{turmaId}/removerAluno/{alunoId}")
+    public ResponseEntity<?> removerAlunoDaTurma(@PathVariable Long turmaId, @PathVariable Long alunoId) {
+        return service.removerAluno(turmaId, alunoId);
+    }
 
-@GetMapping("/{turmaId}/removerAluno/{alunoId}")
-public ResponseEntity<?> removerAlunoDaTurma(@PathVariable Long turmaId, @PathVariable Long alunoId) { 
-    return service.removerAluno(turmaId, alunoId);
+    // @Transactional
+
+    @PreUpdate
+    @Transactional
+    @PutMapping("/{id}/matricularAluno/{idaluno}")
+    public ResponseEntity<?> matricularAluno(@PathVariable Long id, @PathVariable Long idaluno) {
+        return service.matricularAluno(id, idaluno);
+    }
+
 }
-
-  
-
-   
-}
-

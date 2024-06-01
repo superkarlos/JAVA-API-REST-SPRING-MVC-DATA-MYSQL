@@ -1,4 +1,5 @@
 package br.com.sistema_cadastros.inicio.controller;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -26,65 +27,59 @@ import br.com.sistema_cadastros.inicio.model.ProfessorEntity;
 import br.com.sistema_cadastros.inicio.repostory.RepositorioProfessor;
 import br.com.sistema_cadastros.inicio.service.ProfessorService;
 import ch.qos.logback.core.joran.util.beans.BeanUtil;
-
-
-
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/Professor")
 public class ProfessorController {
-      
 
+  @Autowired
+  private ProfessorService service;
 
-    @Autowired
-    private ProfessorService service;
+  @GetMapping("lista")
+  public ResponseEntity<List<ProfessorEntity>> getAll() {
 
-    @GetMapping("lista")
-    public  ResponseEntity <List<ProfessorEntity>> getAll(){
-      
-     return ResponseEntity.status(HttpStatus.OK).body(service.lista());
-    }
+    return ResponseEntity.status(HttpStatus.OK).body(service.lista());
+  }
 
-    @GetMapping("/lista_logica")
-    public  ResponseEntity <List<ProfessorEntity>> getAll_logic(){
+  @GetMapping("/lista_logica")
+  public ResponseEntity<List<ProfessorEntity>> getAll_logic() {
 
     return ResponseEntity.status(HttpStatus.OK).body(service.listaLogica());
-      
-     }
-     
 
-    @GetMapping("lista/{id}")
-    public ResponseEntity <Object> getUnioo(@PathVariable (value = "id") Long id){ 
-     return ResponseEntity.status(HttpStatus.OK).body(service.listaID(id));
-    }
+  }
 
-    @PostMapping("/post")
-    public ResponseEntity <?> post (@RequestBody ProfessorDTO professorDTO){
-         return ResponseEntity.status(HttpStatus.CREATED).body(service.cadastro(professorDTO) );
-    }
+  @GetMapping("lista/{id}")
+  public ResponseEntity<Object> getUnioo(@PathVariable(value = "id") Long id) {
+    return ResponseEntity.status(HttpStatus.OK).body(service.listaID(id));
+  }
 
-    @PutMapping("post/{id}")
-    public ResponseEntity <Object> putUnico(@PathVariable (value = "id") Long id, @RequestBody ProfessorDTO professordto){
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(service.atualizar(id, professordto));
-    }
+  @PostMapping("/post")
+  public ResponseEntity<?> post(@Valid @RequestBody ProfessorDTO professorDTO) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(service.cadastro(professorDTO));
+  }
 
-   // @GetMapping("deletar/{id}")
-    @DeleteMapping("deletar/{id}")
-    public ResponseEntity<Object> delepeOne(@PathVariable(value = "id") Long id){
-     return ResponseEntity.status(HttpStatus.OK).body(service.deletar(id) );    
-    }
-    
-    @DeleteMapping("deletarLogico/{id}")
-    public ResponseEntity<Object> delepe_logicoOne(@PathVariable(value = "id") Long id){
-        return service.desativar(id);
-    }
-    
+  @PutMapping("post/{id}")
+  public ResponseEntity<Object> putUnico(@PathVariable(value = "id") Long id, @RequestBody ProfessorDTO professordto) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(service.atualizar(id, professordto));
+  }
 
-    @GetMapping("Turma/entrar/{id}")
-    public  ResponseEntity <String> entraEntity(@PathVariable (value = "id") Long id){
-      
-     return ResponseEntity.status(HttpStatus.OK).body(service.entrar(id));
-     
-    }
+  // @GetMapping("deletar/{id}")
+  @DeleteMapping("deletar/{id}")
+  public ResponseEntity<Object> delepeOne(@PathVariable(value = "id") Long id) {
+    return ResponseEntity.status(HttpStatus.OK).body(service.deletar(id));
+  }
+
+  @DeleteMapping("deletarLogico/{id}")
+  public ResponseEntity<Object> delepe_logicoOne(@PathVariable(value = "id") Long id) {
+    return service.desativar(id);
+  }
+
+  @GetMapping("Turma/entrar/{id}")
+  public ResponseEntity<String> entraEntity(@PathVariable(value = "id") Long id) {
+
+    return ResponseEntity.status(HttpStatus.OK).body(service.entrar(id));
+
+  }
 
 }

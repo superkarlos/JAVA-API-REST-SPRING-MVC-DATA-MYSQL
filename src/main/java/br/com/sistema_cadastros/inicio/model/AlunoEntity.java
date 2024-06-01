@@ -1,7 +1,5 @@
 package br.com.sistema_cadastros.inicio.model;
 
-
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,53 +37,25 @@ import jakarta.persistence.ManyToMany;
 @Data
 
 public class AlunoEntity {
-    
-   public AlunoEntity(AlunoDTO alunoDTO) {
-        //TODO Auto-generated constructor stub
-    }
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
+  private String nome;
+  private String cpf;
+  private int matricula;
+  private Genero genero;
+  private String curso;
+  private String data;
 
-@Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private long id;
- // @NotNull
- // @NotBlank(message = "Esse campo não pode ser vazio")
-   private String nome;
+  private Boolean ativo = true;
 
-  // @NotBlank(message = "Esse campo não pode ser vazio")
-  // @CPF
-  // @NotNull
-   private String cpf;
+  @ManyToMany(mappedBy = "lista_alunos", fetch = FetchType.LAZY)
+  // @JsonManagedReference
+  // @JsonBackReference
+  @JsonIgnore
+  private List<TurmaEntity> turmas;
 
-///  @NotNull
- //  @NotBlank(message = "Esse campo não pode ser vazio")
-   private int matricula;
-
- //  @NotNull
-  // @NotBlank(message = "Esse campo não pode ser vazio")
-   private Genero genero;
-
- // @NotNull
-   //@NotBlank(message = "Esse campo não pode ser vazio")
-   private String curso;
-
-   //@NotNull
-  /// @NotBlank(message = "Esse campo não pode ser vazio")
-   private  String data;
-
-
-   
-   
-   
-    private Boolean ativo = true;
-    
-
-    @ManyToMany(mappedBy = "lista_alunos",fetch = FetchType.LAZY)
-    // @JsonManagedReference
-  //  @JsonBackReference
-   @JsonIgnore
- //  private Set<TurmaEntity> turmas = new HashSet<>();
-     private List <TurmaEntity> turmas ;
-    // @JsonIgnore
-  
+  public AlunoEntity(AlunoDTO alunoDTO) {
+  }
 }

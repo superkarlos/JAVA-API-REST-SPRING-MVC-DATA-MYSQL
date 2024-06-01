@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -34,44 +35,26 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
-@Table(name="Professor")
+@Table(name = "Professor")
 public class ProfessorEntity {
-    
-   @Id
-   @GeneratedValue(strategy =GenerationType.AUTO)
-   private long id =0;
-   //@NotNull
-  // @NotBlank(message = "Esse campo não pode ser vazio")
-   private String nome;
- //  @NotNull
- //  @NotBlank(message = "Esse campo não pode ser vazio")
- //  @CPF
-   private String cpf;
- //  @NotNull
- //  @NotBlank(message = "Esse campo não pode ser vazio")
-   private int matricula;
- //  @NotNull
- //  @NotBlank(message = "Esse campo não pode ser vazio")
-   private Genero genero;
- //  @NotNull
-  // @NotBlank(message = "Esse campo não pode ser vazio")
-   private String departamento;
-  // @NotNull
- // @NotBlank(message = "Esse campo não pode ser vazio")
-   private  String data;
-  // @NotNull
-   //@NotBlank(message = "Esse campo não pode ser vazio")
-   private float salario;
 
-   //@NotNull
-  //@NotBlank(message = "Esse campo não pode ser vazio")
- 
-   private Boolean ativo = true;
-  
-   @OneToMany(mappedBy = "professorDisciplina",fetch = FetchType.EAGER)
-   //@JsonManagedReference
-   private List<TurmaEntity> turmas;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private long id = 0;
+  private String nome;
+  private String cpf;
+  private int matricula;
+  private Genero genero;
+  private String departamento;
+  private String data;
+  private float salario;
 
+  private Boolean ativo = true;
 
+  @OneToMany(mappedBy = "professorDisciplina", fetch = FetchType.EAGER)
+  // @JsonManagedReference
+  // @JsonBackReference
+  @JsonIgnore
+  private List<TurmaEntity> turmas;
 
 }

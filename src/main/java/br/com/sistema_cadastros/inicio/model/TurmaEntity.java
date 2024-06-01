@@ -24,40 +24,36 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name ="Turmas")
+@Table(name = "Turmas")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 
 public class TurmaEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nome;
-    private String codigo;
-    private Boolean ativo = true;
-    public void removeAluno(AlunoEntity aluno) {
-      this.lista_alunos.remove(aluno);
-      aluno.getTurmas().remove(this); // Também remover a turma da lista de turmas do aluno
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  private String nome;
+  private String codigo;
+  private Boolean ativo = true;
+
+  public void removeAluno(AlunoEntity aluno) {
+    this.lista_alunos.remove(aluno);
+    aluno.getTurmas().remove(this); // Também remover a turma da lista de turmas do aluno
   }
 
+  @ManyToOne
+  @JoinColumn(name = "professor_id", nullable = true)
+  // @JsonBackReference
+  // @JsonManagedReference
+  // @JsonIgnore
+  private ProfessorEntity professorDisciplina;
 
-
-    @ManyToOne
-    @JoinColumn(name = "professor_id",nullable = true)
-    @JsonBackReference
-   // @JsonIgnore
-    private ProfessorEntity professorDisciplina;
-
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name= "Turmas_alunos",
-    joinColumns = @JoinColumn(name= "disciplica_fk"),
-    inverseJoinColumns = @JoinColumn(name= "Aluno_fk"))
-  //  @JsonManagedReference
-    //  @JsonBackReference
-   // @JsonIgnore
-  //  private Set<AlunoEntity> lista_alunos = new HashSet<>();
-    private List<AlunoEntity> lista_alunos ;
-   
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(name = "Turmas_alunos", joinColumns = @JoinColumn(name = "disciplica_fk"), inverseJoinColumns = @JoinColumn(name = "Aluno_fk"))
+  // @JsonManagedReference
+  // @JsonBackReference
+  // @JsonIgnore
+  private List<AlunoEntity> lista_alunos;
 
 }
