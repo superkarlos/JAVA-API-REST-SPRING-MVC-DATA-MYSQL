@@ -64,7 +64,10 @@ public class TurmaController {
     public ResponseEntity associar(@PathVariable (value = "idturma") Long idT,@PathVariable (value = "idprofessor") Long idP)throws Exception{   
         return ResponseEntity.status(HttpStatus.OK).body(service.assosiarprofessor(idP, idT));
     }
-
+    @GetMapping("/{idturma}/removerProfessor/{idprofessor}")
+    public ResponseEntity deletarProfessor(@PathVariable (value = "idturma") Long idT,@PathVariable (value = "idprofessor") Long idP)throws Exception{   
+        return ResponseEntity.status(HttpStatus.OK).body(service.remover_professor(idT,idP));
+    }
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<?> dell(@PathVariable (value = "id") Long id){
         return ResponseEntity.ok(service.deletar(id));

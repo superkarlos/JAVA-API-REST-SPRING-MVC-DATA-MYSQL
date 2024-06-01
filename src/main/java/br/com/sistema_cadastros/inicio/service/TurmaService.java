@@ -202,7 +202,23 @@ public ResponseEntity<?> removerAluno(Long turmaId, Long alunoId) {
     } else {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Turma ou Aluno não encontrado");
     }
-}
-
+  }
+  
+  public String remover_professor(Long idturma,long idprofessor){
+         Optional<TurmaEntity> turma= this.repositoryTurma.findById(idturma);
+         if(turma.isPresent()){
+              TurmaEntity novTurmaEntity = turma.get();
+              if(novTurmaEntity.getProfessorDisciplina().getId() == idprofessor){
+                novTurmaEntity.setProfessorDisciplina(null);
+                repositoryTurma.save(novTurmaEntity);
+                return "Professor removido";
+              }else{
+                return "professor não encontrado";
+              }
+         }
+         else{
+            return "turma não encontrada";
+         }
+  }
 
 }
