@@ -11,7 +11,8 @@ public record TurmaDTO(
         Long id,
         @NotBlank @NotNull String nome,
         @NotBlank @NotNull String codigo,
-        ProfessorEntity professorDisciplina
+        ProfessorEntity professorDisciplina,
+        List<AlunoEntity> lista_alunos
 
 ) {
 }

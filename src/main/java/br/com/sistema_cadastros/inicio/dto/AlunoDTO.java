@@ -16,9 +16,8 @@ public record AlunoDTO(
         @NotBlank
         @NotNull
         String nome,
-      //  @CPF
+    //   @CPF
         String cpf,
-        @NotBlank
         @NotNull
         int matricula,
         @Enumerated(EnumType.STRING) Genero genero,

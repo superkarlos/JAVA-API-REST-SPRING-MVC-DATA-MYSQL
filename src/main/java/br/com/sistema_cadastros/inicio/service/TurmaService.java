@@ -100,7 +100,11 @@ public class TurmaService {
             }
             if ((turmaDTO.professorDisciplina() != turmaEntity.getProfessorDisciplina())) {
                 turmaEntity.setProfessorDisciplina(turmaDTO.professorDisciplina());
+            }if ((turmaDTO.lista_alunos() != turmaEntity.getLista_alunos())) {
+                turmaEntity.setLista_alunos(turmaDTO.lista_alunos());
+                
             }
+
             this.repositoryTurma.save(turmaEntity);
             // return turmaEntity;
             String aux = "cod 0001"; // turmaEntity.getProfessorDisciplina().getNome();

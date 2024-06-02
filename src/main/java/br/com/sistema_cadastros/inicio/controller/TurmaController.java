@@ -65,8 +65,10 @@ public class TurmaController {
     public ResponseEntity<?> putTurma(@PathVariable(value = "id") Long id, @RequestBody TurmaDTO turmaDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(service.editar(id, turmaDTO));
     }
-
-    @GetMapping("/{idturma}/AssociarProfessor/{idprofessor}")
+    
+    @PreUpdate
+    @Transactional
+    @PutMapping("/{idturma}/AssociarProfessor/{idprofessor}")
     public ResponseEntity associar(@PathVariable(value = "idturma") Long idT,
             @PathVariable(value = "idprofessor") Long idP) throws Exception {
         return ResponseEntity.status(HttpStatus.OK).body(service.assosiarprofessor(idP, idT));

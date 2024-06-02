@@ -20,7 +20,7 @@ public record ProfessorDTO(
     @NotBlank
     @NotNull
     String data,
-    @NotBlank
+ //   @NotBlank
     @NotNull
     float salario
 // List disciplina
