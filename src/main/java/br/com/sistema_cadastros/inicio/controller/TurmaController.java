@@ -45,7 +45,17 @@ public class TurmaController {
     public ResponseEntity<?> getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(service.Lista_tumas());
     }
-
+   
+    @GetMapping("/professor/{id}")
+    public ResponseEntity<?> getAll_professpr(@PathVariable(value = "id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body( service.professor_turmas(id));
+        
+    }
+    @GetMapping("/aluno/{id}")
+    public ResponseEntity<?> getAll_aluno(@PathVariable(value = "id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body( service.aluno_turmas(id));
+        
+    }
     @GetMapping("/listar_logica")
     public ResponseEntity<?> getAllLogic() {
         return ResponseEntity.status(HttpStatus.OK).body(service.lista_logica());

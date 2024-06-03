@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -299,5 +300,34 @@ public Object editar(Long id, TurmaDTO turmaDTO) {
             return "turma não encontrada";
         }
     }
-
+  
+ public Object professor_turmas(Long id){
+    Optional<ProfessorEntity> professorOptional = repositorioProfessor.findById(id);
+    if(professorOptional.isEmpty()){
+        throw new ProfessorNotFoudExecption("Professor não encontrado");
+    }
+    
+    ProfessorEntity professor = professorOptional.get();
+    List<TurmaEntity> turmas = professor.getTurmas();
+    
+    List<String> nomesTurmas = turmas.stream().map(TurmaEntity::getNome).collect(Collectors.toList());
+    
+    return  "turmas do professor:"+ professor.getNome() +"\n"+nomesTurmas;
+ }
+ 
+ public Object aluno_turmas(Long id){
+    Optional<AlunoEntity> alunoOptional = repositorioAluno.findById(id);
+    if(alunoOptional.isEmpty()){
+        throw new AlunoNotFoudExecption("Aluno não encontrado");
+    }
+    
+    AlunoEntity aluno = alunoOptional.get();
+    List<TurmaEntity> turmas = aluno.getTurmas();
+    
+    List<String> nomesTurmas = turmas.stream()
+                                     .map(TurmaEntity::getNome)
+                                     .collect(Collectors.toList());
+    
+    return  "Aluno: "+aluno.getNome()+": \n"+ nomesTurmas;
+}
 }
