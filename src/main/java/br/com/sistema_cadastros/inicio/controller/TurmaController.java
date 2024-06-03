@@ -58,7 +58,12 @@ public class TurmaController {
 
     @PostMapping("/post")
     public ResponseEntity<?> postTurma(@Valid @RequestBody TurmaDTO turmaDTO) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.cadastrar(turmaDTO));
+        try {
+            TurmaEntity turma = service.cadastrar(turmaDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(turma);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getLocalizedMessage());
+        }
     }
 
     @PutMapping("/post/{id}")

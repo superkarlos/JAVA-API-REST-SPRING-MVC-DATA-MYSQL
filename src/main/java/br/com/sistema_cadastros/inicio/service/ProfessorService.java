@@ -10,10 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.sistema_cadastros.inicio.dto.ProfessorDTO;
+import br.com.sistema_cadastros.inicio.execeptions.ProfessorNotFoudExecption;
 import br.com.sistema_cadastros.inicio.model.ProfessorEntity;
 import br.com.sistema_cadastros.inicio.model.TurmaEntity;
 import br.com.sistema_cadastros.inicio.repostory.RepositorioProfessor;
 import br.com.sistema_cadastros.inicio.repostory.RepositoryTurma;
+import ch.qos.logback.core.model.processor.ProcessorException;
 
 @Service
 public class ProfessorService {
@@ -60,13 +62,11 @@ public class ProfessorService {
     }
 
     public Object listaID(Long id) {
-
         Optional<ProfessorEntity> optional = this.repository.findById(id);
-        if (optional.isPresent()) {
-            return optional.get();
-        } else {
-            return "PROFESSOR NÂO LOCALIZADO";
+        if (optional.isEmpty()) {
+            throw new ProfessorNotFoudExecption("Professor de id " + id + " Não encontrado");
         }
+        return optional.get();
     }
 
     public ProfessorEntity cadastro(ProfessorDTO professorDTO) {
@@ -77,35 +77,34 @@ public class ProfessorService {
 
     public Object atualizar(Long id, ProfessorDTO professordto) {
         Optional<ProfessorEntity> professorEntity = this.repository.findById(id);
-
         if (professorEntity.isPresent()) {
             ProfessorEntity professor = professorEntity.get();
             mescar(professor, professordto);
             return this.repository.save(professor);
         } else {
-            return "Não localizado";
+            throw new ProfessorNotFoudExecption("Professor de id " + id + " Não encontrado");
         }
 
     }
 
     public String deletar(Long id) {
         Optional<ProfessorEntity> optional = this.repository.findById(id);
-
+        if(optional.isEmpty()){
+          throw new ProfessorNotFoudExecption("Professor não encontrado");
+        }
         if (optional.isPresent()) {
             // Remover a associação de todas as turmas
             ProfessorEntity professor = optional.get();
             List<TurmaEntity> turmas = professor.getTurmas();
-
             for (TurmaEntity turma : turmas) {
                 turma.setProfessorDisciplina(null);
                 repositoryTurma.save(turma);
             }
-
             // Agora pode deletar o professor
             repository.delete(professor);
             return "Deletado";
         } else {
-            return "Não localizado";
+            throw new ProfessorNotFoudExecption("Professor de id " + id + " Não encontrado");
         }
     }
 
@@ -121,7 +120,7 @@ public class ProfessorService {
             // sucesso!");
 
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não deletado logicamente");
+            throw new ProfessorNotFoudExecption("Professor de id " + id + " Não encontrado");
         }
 
     }

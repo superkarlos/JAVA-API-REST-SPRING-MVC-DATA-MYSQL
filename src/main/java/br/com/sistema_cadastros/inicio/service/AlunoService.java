@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.sistema_cadastros.inicio.dto.AlunoDTO;
+import br.com.sistema_cadastros.inicio.execeptions.AlunoNotFoudExecption;
 import br.com.sistema_cadastros.inicio.model.AlunoEntity;
 import br.com.sistema_cadastros.inicio.model.TurmaEntity;
 import br.com.sistema_cadastros.inicio.repostory.RepositorioAluno;
@@ -64,14 +65,10 @@ public class AlunoService {
 
     public Object lista_id(Long id) {
         Optional<AlunoEntity> aluno_Optional = this.repository.findById(id);
-
-        if (aluno_Optional.isPresent()) {
-            System.out.println("Nome" + aluno_Optional.get().getNome());
-            return aluno_Optional.get();
-
-        } else {
-            return "Não localizado";
+        if(aluno_Optional.isEmpty()){
+            throw new AlunoNotFoudExecption("Aluno de id "+id+ " Não encontrado");
         }
+        return aluno_Optional.get();
     }
 
     public Object atualizar(Long id, AlunoDTO alunodto) {
@@ -83,7 +80,7 @@ public class AlunoService {
             return this.repository.save(alunoEntity);
 
         } else {
-            return "Aluno não encontrado";
+            throw new AlunoNotFoudExecption("Aluno não encotrado para deletar");
         }
     }
 
@@ -105,7 +102,8 @@ public class AlunoService {
 
             return "Aluno deletado com sucesso!";
         } else {
-            return "Aluno não localizado";
+           // return "Aluno não localizado";
+           throw new AlunoNotFoudExecption("Aluno não encotrado para deletar");
         }
     }
 
@@ -117,7 +115,7 @@ public class AlunoService {
             alunoEntity.setAtivo(false);
             return this.repository.save(alunoEntity);
         } else {
-            return "Não deletado logicamente";
+            throw new AlunoNotFoudExecption("Aluno não encotrado para deletar logicamente");
         }
     }
 }

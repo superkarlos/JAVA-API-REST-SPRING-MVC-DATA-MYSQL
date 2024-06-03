@@ -44,7 +44,7 @@ public class TurmaEntity {
 
   @ManyToOne
   @JoinColumn(name = "professor_id", nullable = true)
-  // @JsonBackReference
+   //@JsonBackReference
   // @JsonManagedReference
   // @JsonIgnore
   private ProfessorEntity professorDisciplina;

@@ -50,7 +50,8 @@ public class AlunoControle {
   @GetMapping("lista/{id}")
   public ResponseEntity<Object> getOne(@PathVariable(value = "id") Long id) {
 
-    return ResponseEntity.status(HttpStatus.OK).body(service.lista_id(id));
+   // return ResponseEntity.status(HttpStatus.OK).body(service.lista_id(id));
+   return ResponseEntity.ok(service.lista_id(id));
   }
 
   @PutMapping("/post/{id}")

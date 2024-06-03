@@ -9,8 +9,11 @@ import jakarta.validation.constraints.NotNull;
 
 public record TurmaDTO(
         Long id,
-        @NotBlank @NotNull String nome,
-        @NotBlank @NotNull String codigo,
+    @NotBlank(message = "nome não deve ser null")
+    @NotNull(message = "nome não deve ser null")
+        String nome,
+    @NotBlank @NotNull 
+        String codigo,
         ProfessorEntity professorDisciplina,
         List<AlunoEntity> lista_alunos
 
