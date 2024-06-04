@@ -29,7 +29,6 @@ import jakarta.persistence.ManyToMany;
 
 @Entity
 @Table(name = "Alunos")
-
 @Getter
 @Setter
 @AllArgsConstructor
