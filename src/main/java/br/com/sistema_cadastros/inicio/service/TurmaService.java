@@ -27,6 +27,7 @@ import br.com.sistema_cadastros.inicio.repostory.RepositorioProfessor;
 import br.com.sistema_cadastros.inicio.repostory.RepositoryTurma;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 
 @Service
 public class TurmaService {
@@ -39,11 +40,12 @@ public class TurmaService {
     private RepositorioAluno repositorioAluno;
 
     public TurmaEntity cadastrar( @Valid TurmaDTO turma) {
-        if(turma == null){
+        if(turma.nome() == null || turma.codigo() == null){
             System.out.println("null");
-          throw new TurmaNotFoudExecption("nome vazio");
+          throw new TurmaNotFoudExecption("O nome da turma e o codigo é obrigatorio!!");
          
         }
+      
     TurmaEntity turmaEntity = new TurmaEntity();
     BeanUtils.copyProperties(turma, turmaEntity);
    
