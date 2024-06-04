@@ -80,15 +80,20 @@ Para testar a API, você pode usar ferramentas como Postman ou Insomnia. Disponi
 - Insomnia
 2 - Importe as requisições no Insomnia:
 
-- Baixe o arquivo de configuração JSON do Insomnia disponível aqui.
+- Baixe o arquivo de configuração JSON do Insomnia disponível (pasta insomia)
+- 
+ ![image](https://github.com/superkarlos/JAVA-API-REST-SPRING-MVC-DATA-MYSQL/assets/50372440/cde42275-b622-465b-8437-31fc8b9308f6)
+
 - No Insomnia, clique em File > Import > From File e selecione o arquivo JSON baixado.
 3 -Utilize as requisições importadas para testar a API:
 
-- Você verá uma lista de requisições organizadas para testar as operações CRUD para as entidades Aluno, Professor e Turma.
+- Você verá uma lista de requisições organizadas para testar as operações CRUD para as entidades Aluno, Professor e Turma.[Uploading Insomnia_2024-06-03.json…]()
+
 Exemplos de Requisições via cURL
 Caso prefira, você também pode usar o cURL para testar a API. Aqui estão alguns exemplos de comandos cURL para cada operação:
 
 Cadastrar um novo aluno:
+![image](https://github.com/superkarlos/JAVA-API-REST-SPRING-MVC-DATA-MYSQL/assets/50372440/2aa3c78f-ccf2-426f-b129-3ad5b8502171)
 
 
 
