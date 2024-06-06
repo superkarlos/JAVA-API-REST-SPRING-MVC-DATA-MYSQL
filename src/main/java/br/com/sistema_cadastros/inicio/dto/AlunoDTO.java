@@ -13,12 +13,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record AlunoDTO(
-        @NotBlank
-        @NotNull
+      //  @NotBlank
+       // @NotNull
         String nome,
     //   @CPF
         String cpf,
-        @NotNull
+     //   @NotNull
         int matricula,
         @Enumerated(EnumType.STRING) Genero genero,
         String curso,

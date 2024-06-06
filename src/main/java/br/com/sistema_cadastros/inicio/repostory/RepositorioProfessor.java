@@ -15,6 +15,6 @@ public interface RepositorioProfessor extends JpaRepository<ProfessorEntity, Lon
   List<ProfessorEntity> findByAtivoTrue();
   // ProfessorEntity findById (int chave);
   // List<ProfessorEntity> findByOrderNome();
-  // List<TurmaEntity> findByprofessor(ProfessorEntity professor);
+  // List<TurmaEntity> findByprofessor(ProfessorEntity professor)
 
 }
