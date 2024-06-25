@@ -34,7 +34,7 @@ import jakarta.persistence.ManyToMany;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-
+//comentoi
 public class AlunoEntity {
 
   @Id
